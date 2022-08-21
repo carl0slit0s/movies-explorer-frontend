@@ -1,16 +1,11 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import './BurgerMenu.css';
 import iconClose from '../../images/icon-close.svg';
 import { BurgerMenuStateContext } from '../BurgerContext/BurgerContext';
 
 export default function BurgerMenu({ closeMenu }) {
   const active = React.useContext(BurgerMenuStateContext);
-
-  // function closeMenu() {
-  //   active = false
-  //   console.log(123)
-  // }
 
   return (
     <div className={active ? 'burger-menu burger-menu_active' : 'burger-menu'}>
@@ -23,31 +18,35 @@ export default function BurgerMenu({ closeMenu }) {
       <nav className='burger-menu__nav'>
         <ul className='burger-menu__list'>
           <li className='burger-menu__item'>
-            <Link
+            <NavLink
+              exact
               className='burger-menu__item-link'
+              activeClassName='burger-menu__item-link_active'
               to={'/'}
               onClick={closeMenu}
             >
               Главная
-            </Link>
+            </NavLink>
           </li>
           <li className='burger-menu__item'>
-            <Link
-              className='burger-menu__item-link burger-menu__item-link_active'
+            <NavLink
+              className='burger-menu__item-link'
+              activeClassName='burger-menu__item-link_active'
               to={'/movies'}
               onClick={closeMenu}
             >
               Фильмы
-            </Link>
+            </NavLink>
           </li>
           <li className='burger-menu__item'>
-            <Link
+            <NavLink
               className='burger-menu__item-link'
+              activeClassName='burger-menu__item-link_active'
               to={'/saved-movies'}
               onClick={closeMenu}
             >
               Сохранённые фильмы
-            </Link>
+            </NavLink>
           </li>
         </ul>
       </nav>
