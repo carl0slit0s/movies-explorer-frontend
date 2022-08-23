@@ -49,17 +49,20 @@ function App() {
           <Header changeStatusMenu={changeStatusMenu} />
           <Main />
           <Footer />
-            {/* роутер входа */}
-            <Route exact path='/signin'>
-              <Login />
-            </Route>
-            {/* роутер регистрации */}
-            <Route exact path='/signup'>
-              <Register />
-            </Route>
-            <Route>
-              <PageNotFound />
-            </Route>{' '}
+
+          {/* роутер входа */}
+          <Route exact path='/signin'>
+            <Login />
+          </Route>
+
+          {/* роутер регистрации */}
+          <Route exact path='/signup'>
+            <Register />
+          </Route>
+
+          <Route exact path='*'>
+            <PageNotFound />
+          </Route>
           <BurgerMenu closeMenu={closeMenu} />
         </div>
       </BurgerMenuStateContext.Provider>
