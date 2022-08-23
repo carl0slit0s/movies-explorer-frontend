@@ -43,8 +43,8 @@ function App() {
   }
 
   return (
-    <Switch>
-      <BurgerMenuStateContext.Provider value={burgerMenuActive}>
+    <BurgerMenuStateContext.Provider value={burgerMenuActive}>
+      <Switch>
         <div className='App'>
           <Header changeStatusMenu={changeStatusMenu} />
           <Main />
@@ -65,8 +65,8 @@ function App() {
           </Route>
           <BurgerMenu closeMenu={closeMenu} />
         </div>
-      </BurgerMenuStateContext.Provider>
-    </Switch>
+      </Switch>
+    </BurgerMenuStateContext.Provider>
   );
 }
 
