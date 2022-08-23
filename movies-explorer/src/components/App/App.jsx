@@ -18,6 +18,9 @@ import Login from '../Login/Login';
 import Register from '../Register/Register';
 import { useEffect, useState } from 'react';
 import PageNotFound from '../PageNotFound/PageNotFound';
+import Movies from '../Movies/Movies';
+import SavedMovies from '../SavedMovies/SavedMovies';
+import Profile from '../Profile/Profile';
 
 function App() {
   const [burgerMenuActive, setBurgerMenuActive] = useState(false);
@@ -43,30 +46,50 @@ function App() {
   }
 
   return (
-    <BurgerMenuStateContext.Provider value={burgerMenuActive}>
-      <Switch>
-        <div className='App'>
-          <Header changeStatusMenu={changeStatusMenu} />
-          <Main />
-          <Footer />
+    <div className='App'>
+      <BurgerMenuStateContext.Provider value={burgerMenuActive}>
+        <Switch>
+          <Route exact path='/'>
+            <Header changeStatusMenu={changeStatusMenu} />
+            <Main />
+            <Footer />
+          </Route>
+
+          <Route path={'/movies'}>
+            <Header changeStatusMenu={changeStatusMenu} />
+            <Movies />
+            <Footer />
+          </Route>
+
+          <Route path={'/saved-movies'}>
+            <Header changeStatusMenu={changeStatusMenu} />
+            <SavedMovies />
+            <Footer />
+          </Route>
+          
+          <Route path={'/profile'}>
+            <Header changeStatusMenu={changeStatusMenu} />
+            <Profile />
+            <Footer />
+          </Route>
 
           {/* роутер входа */}
-          <Route exact path='/signin'>
+          <Route path='/signin'>
             <Login />
           </Route>
 
           {/* роутер регистрации */}
-          <Route exact path='/signup'>
+          <Route path='/signup'>
             <Register />
           </Route>
 
-          <Route exact path='*'>
+          <Route path='*'>
             <PageNotFound />
           </Route>
           <BurgerMenu closeMenu={closeMenu} />
-        </div>
-      </Switch>
-    </BurgerMenuStateContext.Provider>
+        </Switch>
+      </BurgerMenuStateContext.Provider>
+    </div>
   );
 }
 

@@ -18,26 +18,16 @@ export default function Main() {
 
   return (
     <main className='main'>
-      <Switch>
-        <BurgerMenuStateContext.Provider value={burgerMenuActive}>
+      <BurgerMenuStateContext.Provider value={burgerMenuActive}>
+        <Switch>
           <Route exact path={'/'}>
             <Promo />
             <AboutProject />
             <Techs />
             <AboutMe />
           </Route>
-          <Route exact path={'/movies'}>
-            <Movies />
-          </Route>
-          <Route exact path={'/saved-movies'}>
-            <SavedMovies />
-          </Route>
-          <Route exact path={'/profile'}>
-            <Profile />
-          </Route>
-          
-        </BurgerMenuStateContext.Provider>
-      </Switch>
+        </Switch>
+      </BurgerMenuStateContext.Provider>
     </main>
   );
 }
