@@ -7,17 +7,17 @@ export default function NavTab() {
       <ul className='navtab'>
         <li>
           <a href='#progect'>
-            <button className='button'>О проекте</button>
+            <button type='button' className='button'>О проекте</button>
           </a>
         </li>
         <li>
           <a href='#techs'>
-            <button className='button'>Технологии</button>
+            <button type='button' className='button'>Технологии</button>
           </a>
         </li>
         <li>
           <a href='#student'>
-            <button className='button'>Студент</button>
+            <button type='button' className='button'>Студент</button>
           </a>
         </li>
       </ul>

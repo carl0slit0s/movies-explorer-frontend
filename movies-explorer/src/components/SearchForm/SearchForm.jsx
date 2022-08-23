@@ -6,8 +6,8 @@ export default function SearchForm() {
     <div className='search'>
       <form className='search__form'>
         <fieldset className='search__fieldset'>
-          <input placeholder='Фильм' className='search__input' />
-          <button className='search__submit'>Найти</button>
+          <input placeholder='Фильм' className='search__input' required/>
+          <button type='submit' className='search__submit'>Найти</button>
         </fieldset>
         <fieldset className='search__fieldset'>
           <p className='search__switch-name'>

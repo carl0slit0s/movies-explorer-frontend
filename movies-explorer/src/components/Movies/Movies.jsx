@@ -9,7 +9,7 @@ export default function Movies() {
     <div className='movies'>
       <SearchForm />
       <MoviesCardList children={<MoviesCard mySaveMovies={false} />} />
-      <button className='movies__button-more'>Ещё</button>
+      <button type='button' className='movies__button-more'>Ещё</button>
     </div>
   );
 }

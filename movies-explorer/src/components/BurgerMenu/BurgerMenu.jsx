@@ -12,6 +12,7 @@ export default function BurgerMenu({ closeMenu }) {
       <div className='burger-menu_opacity'> </div>
       <img
         className='burger-menu__icon-close'
+        alt='кнопка меню'
         src={iconClose}
         onClick={closeMenu}
       />

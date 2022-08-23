@@ -11,35 +11,27 @@ export default function ButtonCardStatus({
   visibilityIconSave,
 }) {
   const [myCard, setMyCard] = useState(false);
-  const [iconStatus, setIconStatus] = useState(iconSave);
-  // const [visibilityIconSave, setVisibilityIconSave] = useState(false);
 
   const handleCardIcon = () => {
     setMyCard(true);
   };
 
-  // видимость кнопки сохранить
-  // const showIconSave = () => {
-  //   setVisibilityIconSave(true);
-  // };
-  // const hideIconSave = () => {
-  //   setVisibilityIconSave(false);
-  // };
-
-  // статус иконки
-  // const changeIconOnDelete = () => {
-  //   setIconStatus(iconDelete);
-  // };
-  // const changeIconOnOk = () => {
-  //   setIconStatus(iconSave);
-  // };
-
   return (
     <div>
       {mySaveMoviesPage ? (
-        <img src={iconDelete} />
+        <button
+          className='button-status button-status_status_delete'
+          type='button'
+          src={iconDelete}
+          alt='иконка удалить'
+        />
       ) : myCard ? (
-        <img src={iconSave} />
+        <button
+          className='button-status button-status_status_save'
+          type='button'
+          src={iconSave}
+          alt='иконка сохрнить'
+        />
       ) : visibilityIconSave ? (
         <ButtonSave handleClick={handleCardIcon} />
       ) : (

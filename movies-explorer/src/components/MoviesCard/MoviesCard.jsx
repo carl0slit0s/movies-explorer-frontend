@@ -33,7 +33,7 @@ export default function MoviesCard({ mySaveMovies }) {
 
   return (
     <div onMouseOver={showIconSave} onMouseOut={hideIconSave} className='card'>
-      <img className='card__image' src={moviesCard} />
+      <img className='card__image' src={moviesCard} alt='здесь будет название фильма'/>
       <div className='card__info'>
         <p className='card__name'>33 слова о дизайне</p>
         <p className='card__duration'>1ч 17м</p>

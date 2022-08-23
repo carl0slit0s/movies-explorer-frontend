@@ -1,0 +1,16 @@
+.button-status {
+  width: 21px;
+  height: 21px;
+  border: none;
+  background-color: transparent;
+  background-repeat: no-repeat;
+  overflow: hidden;
+  outline: none;
+  cursor: pointer;
+}
+.button-status_status_delete {
+  background-image: url('../../images/icon-delete.svg');
+}
+.button-status_status_save {
+  background-image: url('../../images/icon-save.svg');
+}

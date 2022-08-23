@@ -2,7 +2,6 @@ import React from 'react';
 import './AboutMe.css';
 import TitleSecond from '../TitleSecond/TitleSecond';
 import myPhoto from '../../images/my-photo.jpg';
-import { Link } from 'react-router-dom';
 
 export default function AboutMe() {
   return (
@@ -22,14 +21,20 @@ export default function AboutMe() {
 
           <ul className='about-me__contact-list'>
             <li className='about-me__contact-item'>
-              <a className='about-me-contact-link' href='#'>
-                Facebook
+              <a
+                className='about-me-contact-link'
+                href='https://vk.com/lit0s'
+                target='_blank'
+                rel='noreferrer'
+              >
+                VK
               </a>
             </li>
             <li className='about-me__contact-item'>
               <a
                 className='about-me-contact-link'
                 href='https://github.com/carl0slit0s?tab=repositories'
+                rel='noreferrer'
               >
                 Github
               </a>
@@ -37,30 +42,41 @@ export default function AboutMe() {
           </ul>
         </div>
 
-        <img className='about-me__photo' src={myPhoto} />
+        <img className='about-me__photo' src={myPhoto} alt='моя фотография' />
       </div>
 
       <div className='about-me__portfolio'>
         <h3 className='about-me__portfolio-title'>Портфолио</h3>
         <ul className='about-me__portfolio-list'>
           <li className='about-me__portfolio-item'>
-            <a className='about-me__website' href='#'>
+            <a
+              className='about-me__website'
+              href='https://carl0slit0s.github.io/how-to-learn/'
+              target='_blank'
+              rel='noreferrer'
+            >
               Статичный сайт
               <p className='about-me__website-cursor'>&#8599;</p>
             </a>
           </li>
           <li className='about-me__portfolio-item'>
-            <a className='about-me__website' href='#'>
+            <a
+              className='about-me__website'
+              href='https://carl0slit0s.github.io/russian-travel/'
+              target='_blank'
+              rel='noreferrer'
+            >
               Адаптивный сайт
               <p className='about-me__website-cursor'>&#8599;</p>
             </a>
           </li>
-          <li className='about-me__portfolio-item'>
-            <a className='about-me__website' href='#'>
+          {/* удалил из яндекс облака, чтобы деньги не ел */}
+          {/* <li className='about-me__portfolio-item'>
+            <a className='about-me__website' href='#' target='_blank'>
               Одностраничное приложение
               <span className='about-me__website-cursor'>&#8599;</span>
             </a>
-          </li>
+          </li> */}
         </ul>
       </div>
     </section>
