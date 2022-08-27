@@ -5,15 +5,18 @@ import { useState } from 'react';
 import iconSave from '../../images/icon-save.svg';
 import iconDelete from '../../images/icon-delete.svg';
 import ButtonSave from '../ButtonSave/ButtonSave';
+import SavedMovies from '../SavedMovies/SavedMovies';
 
 export default function ButtonCardStatus({
   mySaveMoviesPage,
   visibilityIconSave,
+  clickButtonSave
 }) {
   const [myCard, setMyCard] = useState(false);
 
-  const handleCardIcon = () => {
+  const handleIconSave = () => {
     setMyCard(true);
+    clickButtonSave()
   };
 
   return (
@@ -33,7 +36,7 @@ export default function ButtonCardStatus({
           alt='иконка сохрнить'
         />
       ) : visibilityIconSave ? (
-        <ButtonSave handleClick={handleCardIcon} />
+        <ButtonSave handleClick={handleIconSave} />
       ) : (
         <></>
       )}

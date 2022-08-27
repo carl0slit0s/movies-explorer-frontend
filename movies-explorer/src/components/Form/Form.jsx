@@ -4,8 +4,13 @@ import { Link } from 'react-router-dom';
 import logo from '../../images/logo.svg';
 
 export default function Form({ title, submit, children, handleSubmit }) {
+  function onSubmit(e) {
+    e.preventDefault();
+    handleSubmit();
+  }
+
   return (
-    <form className='form' onSubmit={handleSubmit}>
+    <form className='form' onSubmit={onSubmit}>
       <Link className='form__logo' to='/'>
         <img src={logo} alt='лого сайта' />
       </Link>

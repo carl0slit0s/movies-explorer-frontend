@@ -1,6 +1,7 @@
-import Header from '../components/Header/Header';
+const MOVIE_SERVISE_URL = 'https://api.nomoreparties.co/beatfilm-movies';
+const xhr = new XMLHttpRequest();
 
-const BASE_URL = 'https://api.nomoreparties.co/beatfilm-movies';
+xhr.open('GET', MOVIE_SERVISE_URL);
 
 class MoviesApi {
   constructor(server, option) {
@@ -19,14 +20,15 @@ class MoviesApi {
   }
 
   getFilms() {
-    return fetch(`${this.server}/`, {
-      headers: this.option.headers,
-      credentials: 'include',
+    return fetch(this.server, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
     }).then(this._checkResponse);
   }
 }
 
-export const moviesApi = new MoviesApi(BASE_URL, {
+export const moviesApi = new MoviesApi(MOVIE_SERVISE_URL, {
   headers: {
     'Content-Type': 'application/json',
   },
