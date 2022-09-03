@@ -1,4 +1,4 @@
-const BASE_URL = 'http://api.diplomalit0s.nomoredomains.xyz';
+const BASE_URL = 'https://api.diplomalit0s.nomoredomains.xyz';
 
 const _checkResponse = (res) => {
   if (res.ok) {
@@ -18,7 +18,7 @@ export function register(name, email, password) {
       Accept: 'application/json',
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({name, email, password }),
+    body: JSON.stringify({ name, email, password }),
   }).then(_checkResponse);
 }
 
@@ -34,8 +34,13 @@ export function authorize(email, password) {
 }
 
 export function getContent(token) {
-  return fetch(`${BASE_URL}/movies`, {
+  return fetch(`${BASE_URL}/users/me`, {
     method: 'GET',
     credentials: 'include',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`,
+    }
   }).then(_checkResponse);
 }

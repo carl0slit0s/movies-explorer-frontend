@@ -10,26 +10,40 @@ import SavedMovies from '../SavedMovies/SavedMovies';
 export default function ButtonCardStatus({
   mySaveMoviesPage,
   visibilityIconSave,
-  clickButtonSave
+  clickButtonSave,
+  handleIconDelete,
 }) {
   const [myCard, setMyCard] = useState(false);
+  const [visibilityIconDelete, setVisibilityIconDelete] = useState(false);
 
   const handleIconSave = () => {
     setMyCard(true);
-    clickButtonSave()
+    clickButtonSave();
   };
+
+  function showIconDelete() {
+    setVisibilityIconDelete(true);
+  }
+  function hideIconDelete() {
+    setVisibilityIconDelete(false);
+    console.log(visibilityIconDelete);
+  }
 
   return (
     <div>
-      {mySaveMoviesPage ? (
+      {mySaveMoviesPage || visibilityIconDelete ? (
         <button
+          onMouseOut={hideIconDelete}
           className='button-status button-status_status_delete'
           type='button'
           src={iconDelete}
           alt='иконка удалить'
+          onClick={handleIconDelete}
         />
       ) : myCard ? (
         <button
+          onMouseOver={showIconDelete}
+          onMouseOut={hideIconDelete}
           className='button-status button-status_status_save'
           type='button'
           src={iconSave}

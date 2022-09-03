@@ -1,5 +1,5 @@
-const BASE_URL = 'http://api.diplomalit0s.nomoredomains.xyz/';
-
+const BASE_URL = 'https://api.diplomalit0s.nomoredomains.xyz';
+const MOVIE_API_URL = 'https://api.nomoreparties.co';
 class MainApi {
   constructor(server, option) {
     this.option = option;
@@ -16,28 +16,68 @@ class MainApi {
   }
 
   // показать мои фильмы
-  getMyMovies() {
+  getMyMovies(token) {
     return fetch(`${this.server}/movies`, {
       headers: {
+        Accept: 'application/json',
         'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
       },
       credentials: 'include',
     }).then(this._checkResponse);
   }
 
   // сохранить в мои фильмы
-  seveMovie(data) {
+  seveMovie(data, token) {
+    const filmData = {
+      country: data.country,
+      duration: data.duration,
+      director: data.director,
+      year: data.year,
+      description: data.description,
+      image: MOVIE_API_URL + data.image.url,
+      trailerLink: MOVIE_API_URL + data.trailerLink,
+      thumbnail: MOVIE_API_URL + data.image.formats.thumbnail.url,
+      movieId: data.id,
+      nameRU: data.nameRU,
+      nameEN: data.nameEN,
+    };
     return fetch(`${this.server}/movies`, {
       method: 'POST',
       headers: {
+        Accept: 'application/json',
         'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
       },
       credentials: 'include',
+      body: JSON.stringify(filmData),
+    }).then(this._checkResponse);
+  }
+
+  deleteMovie(id, token) {
+    return fetch(`${this.server}/movies/${id}`, {
+      method: 'DELETE',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      credentials: 'include',
+    }).then(this._checkResponse);
+  }
+
+  updateUserData(name, email, token) {
+    return fetch(`${BASE_URL}/users/me`, {
+      method: 'PATCH',
+      credentials: 'include',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
       body: JSON.stringify({
-        name: data.nameRu,
-        image: data.image,
-        duration: data.duration,
-        movieId: data.movieId
+        name: name,
+        email: email,
       }),
     }).then(this._checkResponse);
   }

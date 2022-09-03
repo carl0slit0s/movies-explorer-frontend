@@ -11,7 +11,7 @@ import Register from '../Register/Register';
 import Login from '../Login/Login';
 import SavedMovies from '../SavedMovies/SavedMovies';
 import BurgerMenu from '../BurgerMenu/BurgerMenu';
-import { BurgerMenuStateContext } from '../BurgerContext/BurgerContext';
+import { BurgerMenuStateContext } from '../Context/BurgerContext';
 
 export default function Main() {
   const [burgerMenuActive, setBurgerMenuActive] = useState(false);

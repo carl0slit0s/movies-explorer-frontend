@@ -55,6 +55,7 @@
   top: 22px;
   right: 31px;
   z-index: 1;
+  cursor: pointer;
 }
 
 @media screen and (max-width: 450px) {

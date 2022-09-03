@@ -2,10 +2,11 @@ import React from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import './BurgerMenu.css';
 import iconClose from '../../images/icon-close.svg';
-import { BurgerMenuStateContext } from '../BurgerContext/BurgerContext';
+import { BurgerMenuStateContext } from '../Context/BurgerContext';
 
-export default function BurgerMenu({ closeMenu }) {
+export default function BurgerMenu({closeMenu}) {
   const active = React.useContext(BurgerMenuStateContext);
+  console.log('BurgerMenuStateContext', active)
 
   return (
     <div className={active ? 'burger-menu burger-menu_active' : 'burger-menu'}>
