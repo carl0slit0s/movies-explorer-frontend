@@ -5,7 +5,6 @@ import { useState } from 'react';
 import iconSave from '../../images/icon-save.svg';
 import iconDelete from '../../images/icon-delete.svg';
 import ButtonSave from '../ButtonSave/ButtonSave';
-import SavedMovies from '../SavedMovies/SavedMovies';
 
 export default function ButtonCardStatus({
   mySaveMoviesPage,

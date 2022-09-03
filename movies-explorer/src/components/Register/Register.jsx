@@ -5,20 +5,16 @@ import Form from '../Form/Form';
 import Input from '../Input/Input';
 
 export default function Register(props) {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
   const [formParams, setFormParams] = useState({
     name: '',
     email: '',
     password: '',
   });
-  const [message, setMessage] = useState('');
 
   const handleSubmit = (e) => {
     let { name, email, password } = formParams;
     props.handleRegister({ name, email, password }).catch((err) => {
-      setMessage(err.message);
+      console.log(err);
     });
   };
 

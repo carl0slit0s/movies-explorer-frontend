@@ -1,5 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useContext, useState } from 'react';
 import './Profile.css';
 import { CurrentUser } from '../Context/CurrentUser';
 import { mainApi } from '../../utils/MainApi';
@@ -9,9 +8,6 @@ export default function Profile({ handleOut }) {
   const [formParams, setFormParams] = useState(currentUser);
 
 
-  // useEffect(() => {
-  //   console.log(currentUser)
-  // }, [formParams]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -52,10 +48,6 @@ export default function Profile({ handleOut }) {
             placeholder={currentUser.email}
           />
         </label>
-        {/* <div className='profile__sector'>
-          <p className='profile__text'>E-mail</p>
-          <p className='profile__text'>{currentUser.email}</p>
-        </div> */}
       </div>
       <button
         type='submit'

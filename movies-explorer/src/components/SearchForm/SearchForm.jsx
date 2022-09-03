@@ -6,11 +6,6 @@ export default function SearchForm({ onSubmit }) {
     movieName: '',
   });
   const [checked, setChecked] = useState(false);
-  // const [searchHappened, setSearchHappened] = useState(false);
-  function searchMovies(e) {
-    e.preventDefault();
-    // setSearchHappened(true);
-  }
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -25,24 +20,11 @@ export default function SearchForm({ onSubmit }) {
     console.log(formParams);
     onSubmit(formParams, checked);
   }
-  
+
   function chengeCheckbox() {
     setChecked(!checked);
     console.log(checked);
   }
-
-  // function searchFilm({ movies, movieName }) {
-  //   // const film = Array.map(movieList, movie => movie.name.includes(movieName))
-  //   let filterMovies = movies.filter((movie) =>
-  //     movie.nameRU.toLowerCase().includes(movieName.toLowerCase())
-  //   );
-  //   if (checked) {
-  //     filterMovies = filterMovies.filter(
-  //       (movie) => Number(movie.duration) <= 40
-  //     );
-  //   }
-  //   localStorage.setItem('filterMovies', JSON.stringify(filterMovies));
-  // }
 
   return (
     <div className='search'>

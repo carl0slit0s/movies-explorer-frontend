@@ -1,30 +1,21 @@
 import './App.css';
 import { BurgerMenuStateContext } from '../Context/BurgerContext';
 import { MoviesContext } from '../Context/MoviesContext';
-import { moviesApi } from '../../utils/MoviesApi';
 
 import Main from '../Main/Main';
 import Header from '../Header/Header';
 import BurgerMenu from '../BurgerMenu/BurgerMenu';
-import {
-  Router,
-  Route,
-  Switch,
-  Redirect,
-  useHistory,
-  Link,
-} from 'react-router-dom';
+import { Route, Switch, useHistory } from 'react-router-dom';
 import Footer from '../Footer/Footer';
 import Login from '../Login/Login';
 import Register from '../Register/Register';
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import PageNotFound from '../PageNotFound/PageNotFound';
 import Movies from '../Movies/Movies';
 import SavedMovies from '../SavedMovies/SavedMovies';
 import Profile from '../Profile/Profile';
 import ProtectedRoute from '../ProtectedRoute';
 import * as auth from '../../utils/auth';
-import { mainApi } from '../../utils/MainApi';
 import { CurrentUser } from '../Context/CurrentUser';
 
 function App() {
@@ -43,23 +34,10 @@ function App() {
     tokenCheck();
   }, []);
 
-  // function getMyMovies() {
-  //   const token = localStorage.getItem('token');
-  //   mainApi.getMyMovies(token).then((res) => {
-  //     console.log(123);
-  //     return setMySaveMovies(res);
-  //   });
-  // }
-
   function changeStatusMenu() {
     setBurgerMenuActive(!burgerMenuActive);
     console.log(burgerMenuActive);
   }
-
-  // function getMyMovies() {
-  //   const token = localStorage.getItem('token');
-  //   mainApi.getMyMovies(token).then((res) => setMySaveMovies(res));
-  // }
 
   function closeMenu() {
     setBurgerMenuActive(!burgerMenuActive);
@@ -103,23 +81,6 @@ function App() {
           console.log('это юзер', currentUser);
         })
         .catch((err) => console.log(err));
-      // auth
-      //   .getContent(jwt)
-      //   .then((res) => {
-      //     if (res) {
-      //       // let userData = {
-      //       //   username: res.name,
-      //       //   email: res.email,
-      //       //   about: res.about,
-      //       // };
-      //       setCurrentUser(res);
-      //       console.log(loggedIn)
-      //       console.log(loggedIn)
-      //     }
-      //   })
-      //   .catch((err) => {
-      //     console.log(err);
-      //   });
     }
   }
 

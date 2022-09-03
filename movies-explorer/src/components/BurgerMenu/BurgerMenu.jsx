@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import './BurgerMenu.css';
 import iconClose from '../../images/icon-close.svg';
 import { BurgerMenuStateContext } from '../Context/BurgerContext';

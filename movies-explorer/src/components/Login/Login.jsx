@@ -3,14 +3,12 @@ import { Link } from 'react-router-dom';
 import Form from '../Form/Form';
 import Input from '../Input/Input';
 import './Login.css';
-import logo from '../../images/logo.svg';
 
 export default function Login(props) {
   const [formParams, setFormParams] = useState({
     email: '',
     password: '',
   });
-  const [message, setMessage] = useState('');
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -23,7 +21,7 @@ export default function Login(props) {
   function handleSubmitRegister() {
     let { email, password } = formParams;
     props.handleLogin({ email, password }).catch((err) => {
-      setMessage(err.message);
+      console.log(err)
     });;
   }
 

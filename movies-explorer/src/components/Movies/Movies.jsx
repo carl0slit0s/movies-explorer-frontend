@@ -12,8 +12,6 @@ export default function Movies({ listMovies }) {
   const { myMovies, setMyMovies } = useContext(MoviesContext);
   const [searchHappened, setSearchHappened] = useState(false);
   const [filterMovies, setFilterMovies] = useState({});
-  const [mySaveMovies, setMySaveMovies] = useState([]);
-  const [movies, setMovies] = useState([]);
 
   function changeWidth(widthWindow) {
     if (widthWindow >= 1280) {
@@ -29,36 +27,12 @@ export default function Movies({ listMovies }) {
   console.log(showCard, moreCard);
   const [showCardCount, setShowCardCount] = useState(showCard);
   const [showPreloader, setShowPreloader] = useState(false);
-  // useEffect(() => {
-  //   const token = localStorage.getItem('token');
-  //   mainApi
-  //     .getMyMovies(token)
-  //     .then((res) => {
-  //       setMyMovies(res);
-  //     })
-  //     .then(() => console.log(myMovies));
-  // }, [setMyMovies.length]);
 
-  // useEffect(() => {
-  //   console.log(123)
-  //   const token = localStorage.getItem('token');
-  //   mainApi
-  //     .getMyMovies(token)
-  //     .then((res) => {
-  //       setMyMovies(res);
-  //     })
-  //     .then(() => console.log(myMovies));
-  // }, [myMovies.length]);
-
-  // useEffect(() => {
-  //   console.log('showCardCount', showCardCount)
-  // }, [showCardCount])
 
   useEffect(() => {
     moviesApi
       .getFilms()
       .then((moviesList) => {
-        setMovies(moviesList);
         localStorage.setItem('moviesList', JSON.stringify(moviesList));
       })
       .catch((err) => console.log(err))
@@ -76,7 +50,6 @@ export default function Movies({ listMovies }) {
   }
 
   function searchFilm({ movies, movieName, checked }) {
-    // const film = Array.map(movieList, movie => movie.name.includes(movieName))
     let filterMovies = movies.filter((movie) =>
       movie.nameRU.toLowerCase().includes(movieName.toLowerCase())
     );
