@@ -1,0 +1,95 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  width: 360px;
+  position: relative;
+}
+
+.card__image {
+  width: 100%;
+  height: 200px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.card__info {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 14px;
+  margin: 14px 0 0;
+}
+
+.card__name {
+  color: #fff;
+  padding: 0;
+  margin: 0;
+  font-size: 13px;
+  line-height: 16px;
+  font-weight: 500;
+}
+
+.card__duration {
+  color: #8b8b8b;
+  width: 52px;
+  height: 18px;
+  background-color: #2f2f2f;
+  border-radius: 3px;
+  padding: 0;
+  margin: 0;
+  font-size: 11px;
+  line-height: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card__icon {
+  position: absolute;
+  right: 14px;
+  top: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease-out;
+}
+
+.card__icon:hover {
+  transform: scale(1.2);
+}
+
+.card__icon-status {
+  width: 21px;
+  height: 21px;
+}
+
+@media screen and (max-width: 900px) {
+  .card {
+    width: 339px;
+  }
+
+  .card__image {
+    height: 190px;
+  }
+
+  .card__info {
+    margin-top: 25px;
+  }
+}
+
+@media screen and (max-width: 450px) {
+  .card {
+    width: 300px;
+  }
+
+  .card__image {
+    height: 168px;
+  }
+
+  .card__info {
+    margin: 16px 0 0;
+  }
+
+  .card__name {
+    font-size: 12px;
+    line-height: 15px;
+  }
+}

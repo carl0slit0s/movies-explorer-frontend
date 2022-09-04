@@ -1,0 +1,37 @@
+.navtab {
+  display: flex;
+  list-style-type: none;
+  gap: 10px;
+  margin: 0 0 30px;
+  padding: 0;
+}
+
+.button {
+  padding: 0;
+  margin: 0;
+  border-radius: 10px;
+  border: none;
+  width: 96px;
+  height: 36px;
+  background-color: #303030;
+  color: #fff;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 16px;
+  cursor: pointer;
+}
+
+@media screen and (max-width: 450px) {
+  .navtab {
+    gap: 6px;
+    margin-bottom: 22px;
+  }
+
+  .button {
+    font-size: 10px;
+    line-height: 16px;
+    width: 82px;
+    height: 26px;
+    border-radius: 6px;
+  }
+}

@@ -1,0 +1,16 @@
+.login__text {
+  color: #8b8b8b;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  padding: 0;
+  margin: 0;
+}
+.login__text-link {
+  color: #4285f4;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  text-decoration: none;
+  margin-left: 6px;
+}

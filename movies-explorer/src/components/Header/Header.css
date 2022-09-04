@@ -1,0 +1,100 @@
+.header {
+  min-height: 74px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0 70px;
+  box-sizing: border-box;
+  margin: 0 auto;
+}
+
+.header__auth-links {
+  display: flex;
+  gap: 30px;
+  align-items: center;
+}
+
+.header__button-sign {
+  text-decoration: none;
+  color: #fff;
+  font-size: 12px;
+  line-height: 16px;
+  padding: 0;
+  font-weight: 500;
+}
+
+
+.header__button-sign_active {
+  width: 76px;
+  height: 32px;
+  margin: 0;
+  background-color: #3ddc84;
+  border-radius: 3px;
+  color: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.header__button-account {
+  width: 100px;
+  height: 32px;
+  color: #fff;
+  background-color: #313131;
+  border: none;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 16px;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+.header__links {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  list-style-type: none;
+  margin: 0;
+  margin-right: auto;
+}
+
+.header__links-left-block {
+  display: flex;
+  gap: 16px;
+
+}
+.header__link {
+  color: #fff;
+  text-decoration: none;
+}
+
+.header__link_active {
+  font-weight: 500;
+}
+
+@media screen and (max-width: 768px) {
+  .header {
+    padding: 18px 30px;
+  }
+
+  .header__links {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 450px) {
+  .header {
+    padding: 18px 14px;
+  }
+
+  .header__auth-links {
+    gap: 14px;
+  }
+
+  .header__button-sign {
+    font-size: 10px;
+  }
+}
