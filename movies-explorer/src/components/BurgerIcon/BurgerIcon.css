@@ -1,0 +1,39 @@
+@media screen and (max-width: 768px) {
+  .burger-icon {
+    width: 44px;
+    height: 44px;
+    position: relative;
+    padding: 10px 8px;
+    box-sizing: border-box;
+    cursor: pointer;
+    display: flex;
+  }
+  
+  .burger-icon span {
+    position: absolute;
+    top: 20px;
+    width: 28px;
+    height: 3px;
+    background-color: #fff;
+  }
+  
+  .burger-icon:after {
+    content: '';
+    position: absolute;
+    top: 10px;
+    width: 28px;
+    height: 3px;
+    background-color: #fff;
+  }
+  
+  .burger-icon:before {
+    content: '';
+    position: absolute;
+    top: 30px;
+    width: 28px;
+    height: 3px;
+    background-color: #fff;
+  }
+}
+
+

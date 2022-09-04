@@ -1,0 +1,24 @@
+.title-second {
+  color: #fff;
+  font-size: 22px;
+  line-height: 26px;
+  text-align: left;
+  padding: 0 0 23px;
+  border-bottom: 1px solid #dadada;
+  margin: 0 0 70px;
+}
+
+@media screen and (max-width: 768px) {
+  .title-second {
+    margin-bottom: 66px;
+  }
+}
+
+@media screen and (max-width: 450px) {
+  .title-second {
+    margin-bottom: 60px;
+    font-size: 18px;
+    line-height: 22px;
+    padding-bottom: 28px;
+  }
+}
