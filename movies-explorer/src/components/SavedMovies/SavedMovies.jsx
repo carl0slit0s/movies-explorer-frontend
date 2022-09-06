@@ -8,10 +8,9 @@ import { MoviesContext } from '../Context/MoviesContext';
 import { CurrentUser } from '../Context/CurrentUser';
 
 export default function SavedMovies({ listMovies }) {
-  
   const { myMovies, setMyMovies } = useContext(MoviesContext);
   const { currentUser } = useContext(CurrentUser);
-  console.log('currentUser', currentUser);
+  console.log(myMovies);
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -51,21 +50,27 @@ export default function SavedMovies({ listMovies }) {
     <div className='movies'>
       <SearchForm onSubmit={filterhMovies} />
       <MoviesCardList
-        children={myMovies.map((movie) => (
-          <MoviesCard
-            movie={movie}
-            mySaveMovies={true}
-            movieData={{
-              nameRU: movie.nameRU,
-              duration: movie.duration,
-              image: movie.image,
-              trailerLink: movie.trailerLink,
-            }}
-            // saveMovie={onSaveMovie}
-            key={movie._id}
-            deleteMovie={deleteMovie}
-          />
-        ))}
+        children={
+          myMovies.length ? (
+            myMovies.map((movie) => (
+              <MoviesCard
+                movie={movie}
+                mySaveMovies={true}
+                movieData={{
+                  nameRU: movie.nameRU,
+                  duration: movie.duration,
+                  image: movie.image,
+                  trailerLink: movie.trailerLink,
+                }}
+                // saveMovie={onSaveMovie}
+                key={movie._id}
+                deleteMovie={deleteMovie}
+              />
+            ))
+          ) : (
+            <span>ничего не найдено</span>
+          )
+        }
       />
     </div>
   );

@@ -11,21 +11,15 @@ export default function ButtonCardStatus({
   visibilityIconSave,
   clickButtonSave,
   handleIconDelete,
+  myCard
 }) {
-  const [myCard, setMyCard] = useState(false);
   const [visibilityIconDelete, setVisibilityIconDelete] = useState(false);
-
-  const handleIconSave = () => {
-    setMyCard(true);
-    clickButtonSave();
-  };
 
   function showIconDelete() {
     setVisibilityIconDelete(true);
   }
   function hideIconDelete() {
     setVisibilityIconDelete(false);
-    console.log(visibilityIconDelete);
   }
 
   return (
@@ -49,7 +43,7 @@ export default function ButtonCardStatus({
           alt='иконка сохрнить'
         />
       ) : visibilityIconSave ? (
-        <ButtonSave handleClick={handleIconSave} />
+        <ButtonSave handleClick={clickButtonSave} />
       ) : (
         <></>
       )}

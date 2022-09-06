@@ -5,8 +5,8 @@ const _checkResponse = (res) => {
     return res.json();
   }
   return res.json().then((data) => {
-    console.log(data.error);
-    throw new Error(data.error);
+    console.log(data.message);
+    throw new Error(data.message);
   });
 };
 

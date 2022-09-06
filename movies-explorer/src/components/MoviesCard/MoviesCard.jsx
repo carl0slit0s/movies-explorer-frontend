@@ -3,6 +3,7 @@ import './MoviesCard.css';
 import iconDelete from '../../images/icon-delete.svg';
 import iconSave from '../../images/icon-save.svg';
 import ButtonCardStatus from '../ButtonCardStatus/ButtonCardStatus';
+import { mainApi } from '../../utils/MainApi';
 
 export default function MoviesCard({
   movie,
@@ -10,13 +11,12 @@ export default function MoviesCard({
   movieData,
   saveMovie,
   deleteMovie,
+  showErrorLike,
 }) {
-
   const [iconStatus, setIconStatus] = useState(iconSave);
   const [visibilityIconSave, setVisibilityIconSave] = useState(false);
   const [movieCard, setMovieCard] = useState(movie);
-
-
+  const [myCard, setMyCard] = useState(false);
   // видимость кнопки сохранить
   const showIconSave = () => {
     setVisibilityIconSave(true);
@@ -33,18 +33,36 @@ export default function MoviesCard({
     setIconStatus(iconSave);
   };
 
-  function clickButtonSave() {
-    console.log(movieCard)
-    saveMovie(movieCard);
+  function handleIconDelete() {
+    setMyCard(false);
+    deleteMovie(movieCard);
   }
 
-  function handleIconDelete() {
-    deleteMovie(movieCard);
+  function clickButtonSave(movie) {
+    console.log(movie);
+    let token = localStorage.getItem('token');
+    mainApi
+      .seveMovie(movie, token)
+      .then((res) => {
+        movie = { ...movie, _id: res._id, myCard: true };
+        console.log(movie);
+        setMyCard(true);
+        setMovieCard(movie)
+        return movie;
+      })
+      .catch((err) => {
+        showErrorLike(err.message);
+        console.log(err);
+      });
+  }
+
+  function saveMovie() {
+    clickButtonSave(movie);
   }
 
   return (
     <div onMouseOver={showIconSave} onMouseOut={hideIconSave} className='card'>
-      <a href={movieData.trailerLink} target='_blank' rel="noreferrer">
+      <a href={movieData.trailerLink} target='_blank' rel='noreferrer'>
         <img
           className='card__image'
           src={movieData.image}
@@ -63,8 +81,9 @@ export default function MoviesCard({
         <ButtonCardStatus
           mySaveMoviesPage={mySaveMovies}
           visibilityIconSave={visibilityIconSave}
-          clickButtonSave={clickButtonSave}
+          clickButtonSave={saveMovie}
           handleIconDelete={handleIconDelete}
+          myCard={myCard}
         />
       </div>
     </div>

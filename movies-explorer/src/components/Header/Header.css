@@ -73,6 +73,7 @@
 
 .header__link_active {
   font-weight: 500;
+  border-bottom: #fff 1px solid;
 }
 
 @media screen and (max-width: 768px) {

@@ -3,16 +3,19 @@ import { Link } from 'react-router-dom';
 import './Register.css';
 import Form from '../Form/Form';
 import Input from '../Input/Input';
+import MessagePopup from '../MessagePopup/MessagePopup';
 
 export default function Register(props) {
   const [formParams, setFormParams] = useState({
     name: '',
     email: '',
-    password: '',
+    password: ''
   });
 
   const [errors, setErrors] = useState({});
   const [isValid, setIsValid] = useState(true);
+  const [openPopup, setOpenPopup] = useState(false);
+  const [message, setMessage] = useState('');
 
   const handleSubmit = (e) => {
     let { name, email, password } = formParams;
@@ -25,15 +28,29 @@ export default function Register(props) {
     const { name, value } = e.target;
     setFormParams((prev) => ({
       ...prev,
-      [name]: value,
+      [name]: value
     }));
     setErrors({ ...errors, [name]: e.target.validationMessage });
     setIsValid(e.target.closest('form').checkValidity());
     console.log(isValid);
   };
 
+  function closePopup() {
+    setOpenPopup(false);
+  }
+
+  function showMessage(message) {
+    setOpenPopup(true);
+    setMessage(message);
+  }
+
   return (
     <div className='register'>
+      <MessagePopup
+        message={message}
+        isOpen={openPopup}
+        closePopup={closePopup}
+      />
       <Form
         title={'Рады видеть!'}
         submit={'Зарегистрироваться'}
@@ -48,7 +65,7 @@ export default function Register(props) {
               label={'Имя'}
               value={formParams.name}
               onChange={handleChange}
-              validate={{minLength: 2, maxLength: 30}}
+              validate={{ minLength: 2, maxLength: 30 }}
               errorMessage={errors.name}
             />
             <Input
@@ -58,7 +75,7 @@ export default function Register(props) {
               label={'E-mail'}
               value={formParams.email}
               onChange={handleChange}
-              validate={{minLength: '', maxLength: ''}}
+              validate={{ minLength: '', maxLength: '' }}
               errorMessage={errors.email}
             />
             <Input
@@ -67,7 +84,7 @@ export default function Register(props) {
               label={'Пароль'}
               value={formParams.password}
               onChange={handleChange}
-              validate={{minLength: 8, maxLength: ''}}
+              validate={{ minLength: 8, maxLength: '' }}
               errorMessage={errors.password}
             />
           </>

@@ -1,4 +1,5 @@
 .profile {
+  width: 410px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -15,7 +16,7 @@
 
 .profile__info {
   display: flex;
-  width: 410px;
+  width: 100%;
   margin: 0 0 220px;
   justify-content: center;
   flex-direction: column;
@@ -46,6 +47,7 @@
   line-height: 13px;
   padding: 0;
   margin: 0;
+  text-align: right;
 }
 
 .profile__text::placeholder {
@@ -60,7 +62,7 @@
 }
 
 .profile__button:disabled {
-  opacity: .3;
+  opacity: 0.3;
 }
 
 .profile__button {
@@ -79,4 +81,12 @@
 
 .profile__button_type_exit {
   color: #ee3465;
+}
+@media screen and (max-width: 450px) {
+  .profile {
+    width: 100%;
+    align-items: center;
+    padding: 56px 30px 30px;
+    box-sizing: border-box;
+  }
 }

@@ -4,7 +4,7 @@ import './BurgerMenu.css';
 import iconClose from '../../images/icon-close.svg';
 import { BurgerMenuStateContext } from '../Context/BurgerContext';
 
-export default function BurgerMenu({closeMenu}) {
+export default function BurgerMenu({ closeMenu }) {
   const active = React.useContext(BurgerMenuStateContext);
 
   return (
@@ -47,6 +47,16 @@ export default function BurgerMenu({closeMenu}) {
               onClick={closeMenu}
             >
               Сохранённые фильмы
+            </NavLink>
+          </li>
+          <li className='burger-menu__item'>
+            <NavLink
+              className='burger-menu__item-link'
+              activeClassName='burger-menu__item-link_active'
+              to={'/profile'}
+              onClick={closeMenu}
+            >
+              Аккаунт
             </NavLink>
           </li>
         </ul>

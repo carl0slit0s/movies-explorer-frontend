@@ -9,7 +9,10 @@ class MainApi {
     if (res.ok) {
       return res.json();
     }
-    return Promise.reject(`Ошибка ${res.status}`);
+    return res.json().then((data) => {
+      console.log(data.message);
+      throw new Error(data.message);
+    });
   }
   rebderError(err) {
     console.log(`Ошибка: ${err}`);
@@ -21,9 +24,9 @@ class MainApi {
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${token}`
       },
-      credentials: 'include',
+      credentials: 'include'
     }).then(this._checkResponse);
   }
 
@@ -40,17 +43,17 @@ class MainApi {
       thumbnail: MOVIE_API_URL + data.image.formats.thumbnail.url,
       movieId: data.id,
       nameRU: data.nameRU,
-      nameEN: data.nameEN,
+      nameEN: data.nameEN
     };
     return fetch(`${this.server}/movies`, {
       method: 'POST',
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${token}`
       },
       credentials: 'include',
-      body: JSON.stringify(filmData),
+      body: JSON.stringify(filmData)
     }).then(this._checkResponse);
   }
 
@@ -60,9 +63,9 @@ class MainApi {
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${token}`
       },
-      credentials: 'include',
+      credentials: 'include'
     }).then(this._checkResponse);
   }
 
@@ -73,18 +76,18 @@ class MainApi {
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${token}`
       },
       body: JSON.stringify({
         name: name,
-        email: email,
-      }),
+        email: email
+      })
     }).then(this._checkResponse);
   }
 }
 
 export const mainApi = new MainApi(BASE_URL, {
   headers: {
-    'Content-Type': 'application/json',
-  },
+    'Content-Type': 'application/json'
+  }
 });

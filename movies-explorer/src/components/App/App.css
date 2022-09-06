@@ -6,11 +6,11 @@ html {
   max-width: 1280px;
   text-align: center;
   height: 100%;
-  display: flex;  
+  display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
   margin: 0 auto;
   position: relative;
   box-sizing: border-box;
 }
-

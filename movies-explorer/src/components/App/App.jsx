@@ -17,18 +17,21 @@ import Profile from '../Profile/Profile';
 import ProtectedRoute from '../ProtectedRoute';
 import * as auth from '../../utils/auth';
 import { CurrentUser } from '../Context/CurrentUser';
+import MessagePopup from '../MessagePopup/MessagePopup';
 
 function App() {
   const [burgerMenuActive, setBurgerMenuActive] = useState(false);
   const [currentUser, setCurrentUser] = useState({});
   const [loggedIn, setLoggedIn] = useState(false);
   const [myMovies, setMyMovies] = useState([]);
+  const [openPopup, setOpenPopup] = useState(false);
+  const [message, setMessage] = useState('');
 
   const history = useHistory();
 
-  useEffect(() => {
-    loggedIn ? history.push('/movies') : history.push('/');
-  }, []);
+  // useEffect(() => {
+  //   loggedIn ? history.push('/movies') : history.push('/');
+  // }, []);
 
   useEffect(() => {
     tokenCheck();
@@ -43,7 +46,10 @@ function App() {
   }
 
   function handleRegister({ name, email, password }) {
-    return auth.register(name, email, password).then(() => handleLogin({ email, password }));
+    return auth.register(name, email, password).then(() => {
+      showMessage('успешная регистрация!')
+      handleLogin({ email, password });
+    }).catch(err => showMessage(err.message));
   }
 
   function handleLogin({ email, password }) {
@@ -56,13 +62,24 @@ function App() {
         tokenCheck();
       })
       .catch((err) => {
+        showMessage(err.message);
         console.log(err);
       });
   }
 
+  function showMessage(message) {
+    setOpenPopup(true);
+    console.log('ОТкрЫть');
+    setMessage(message);
+  }
+
+  function closePopup() {
+    setOpenPopup(false);
+  }
+
   function handleOut() {
     localStorage.removeItem('token');
-    localStorage.removeItem('filterMovies')
+    localStorage.removeItem('filterMovies');
     setLoggedIn(false);
     history.push('/');
   }
@@ -77,7 +94,12 @@ function App() {
         .then((res) => {
           setCurrentUser(res);
         })
-        .catch((err) => console.log(err));
+        .catch((err) => {
+          setLoggedIn(false);
+          history.push('/');
+          console.log(err);
+          localStorage.removeItem('token')
+        });
     }
   }
 
@@ -88,7 +110,8 @@ function App() {
           <MoviesContext.Provider value={{ myMovies, setMyMovies }}>
             <Switch>
               <Route exact path='/'>
-                <Header changeStatusMenu={changeStatusMenu} />
+                <Header loggedIn={loggedIn} changeStatusMenu={changeStatusMenu} />
+                <BurgerMenu closeMenu={closeMenu} />
                 <Main />
                 <Footer />
               </Route>
@@ -99,14 +122,14 @@ function App() {
                 loggedIn={loggedIn}
               >
                 <Route path={'/movies'}>
-                  <Header changeStatusMenu={changeStatusMenu} />
+                  <Header loggedIn={loggedIn} changeStatusMenu={changeStatusMenu} />
                   <BurgerMenu closeMenu={closeMenu} />
                   <Movies />
                   <Footer />
                 </Route>
 
                 <Route path={'/saved-movies'}>
-                  <Header changeStatusMenu={changeStatusMenu} />
+                  <Header loggedIn={loggedIn} changeStatusMenu={changeStatusMenu} />
                   <BurgerMenu closeMenu={closeMenu} active={burgerMenuActive} />
                   <SavedMovies />
                   <Footer />
@@ -114,7 +137,8 @@ function App() {
               </ProtectedRoute>
 
               <Route path={'/profile'}>
-                <Header changeStatusMenu={changeStatusMenu} />
+                <Header loggedIn={loggedIn} changeStatusMenu={changeStatusMenu} />
+                <BurgerMenu closeMenu={closeMenu} />
                 <Profile handleOut={handleOut} />
                 <Footer />
               </Route>
@@ -133,6 +157,11 @@ function App() {
                 <PageNotFound />
               </Route>
             </Switch>
+            <MessagePopup
+              message={message}
+              isOpen={openPopup}
+              closePopup={closePopup}
+            />
           </MoviesContext.Provider>
         </BurgerMenuStateContext.Provider>
       </CurrentUser.Provider>
