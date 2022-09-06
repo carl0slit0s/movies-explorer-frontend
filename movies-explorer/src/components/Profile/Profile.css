@@ -59,6 +59,10 @@
   cursor: pointer;
 }
 
+.profile__button:disabled {
+  opacity: .3;
+}
+
 .profile__button {
   color: #fff;
   text-decoration: none;

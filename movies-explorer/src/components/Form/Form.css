@@ -31,6 +31,10 @@
   margin: 0 0 16px;
 }
 
+.form__submit:disabled {
+  opacity: .4;
+}
+
 @media screen and (max-width: 450px) {
   .form {
     width: 100%;

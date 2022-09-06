@@ -8,6 +8,8 @@ export default function Input({
   label,
   value,
   onChange,
+  validate,
+  errorMessage
 }) {
   return (
     <label className='label'>
@@ -20,7 +22,11 @@ export default function Input({
         placeholder={placeholder}
         value={value}
         onChange={onChange}
+        maxLength={validate.maxLength}
+        minLength={validate.minLength}
+        required
       />
+      <span className='input-error'>{errorMessage}</span>
     </label>
   );
 }

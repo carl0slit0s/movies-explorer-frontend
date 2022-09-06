@@ -11,6 +11,9 @@ export default function Register(props) {
     password: '',
   });
 
+  const [errors, setErrors] = useState({});
+  const [isValid, setIsValid] = useState(true);
+
   const handleSubmit = (e) => {
     let { name, email, password } = formParams;
     props.handleRegister({ name, email, password }).catch((err) => {
@@ -24,6 +27,9 @@ export default function Register(props) {
       ...prev,
       [name]: value,
     }));
+    setErrors({ ...errors, [name]: e.target.validationMessage });
+    setIsValid(e.target.closest('form').checkValidity());
+    console.log(isValid);
   };
 
   return (
@@ -32,6 +38,7 @@ export default function Register(props) {
         title={'Рады видеть!'}
         submit={'Зарегистрироваться'}
         handleSubmit={handleSubmit}
+        disabled={!isValid}
         children={
           <>
             <Input
@@ -41,6 +48,8 @@ export default function Register(props) {
               label={'Имя'}
               value={formParams.name}
               onChange={handleChange}
+              validate={{minLength: 2, maxLength: 30}}
+              errorMessage={errors.name}
             />
             <Input
               type={'email'}
@@ -49,6 +58,8 @@ export default function Register(props) {
               label={'E-mail'}
               value={formParams.email}
               onChange={handleChange}
+              validate={{minLength: '', maxLength: ''}}
+              errorMessage={errors.email}
             />
             <Input
               type={'password'}
@@ -56,6 +67,8 @@ export default function Register(props) {
               label={'Пароль'}
               value={formParams.password}
               onChange={handleChange}
+              validate={{minLength: 8, maxLength: ''}}
+              errorMessage={errors.password}
             />
           </>
         }

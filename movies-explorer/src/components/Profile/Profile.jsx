@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import './Profile.css';
 import { CurrentUser } from '../Context/CurrentUser';
 import { mainApi } from '../../utils/MainApi';
@@ -6,8 +6,13 @@ import { mainApi } from '../../utils/MainApi';
 export default function Profile({ handleOut }) {
   const { currentUser, setCurrentUser } = useContext(CurrentUser);
   const [formParams, setFormParams] = useState(currentUser);
+  const [disabled, setDisabled] = useState(true)
 
-
+useEffect(() => {
+  if (formParams.name !== currentUser.name || formParams.email !== currentUser.email) {
+    setDisabled(false)
+  } else setDisabled(true)
+}, [formParams])
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -15,6 +20,7 @@ export default function Profile({ handleOut }) {
       ...prev,
       [name]: value,
     }));
+
   };
 
   function editProfile(e) {
@@ -52,6 +58,7 @@ export default function Profile({ handleOut }) {
       <button
         type='submit'
         className='profile__button profile__button_type_edit'
+        disabled={disabled}
       >
         Редактировать
       </button>

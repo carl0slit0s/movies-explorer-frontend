@@ -23,7 +23,6 @@ export default function MoviesCard({
   };
   const hideIconSave = () => {
     setVisibilityIconSave(false);
-    console.log(movieData)
   };
 
   // статус иконки
@@ -35,6 +34,7 @@ export default function MoviesCard({
   };
 
   function clickButtonSave() {
+    console.log(movieCard)
     saveMovie(movieCard);
   }
 

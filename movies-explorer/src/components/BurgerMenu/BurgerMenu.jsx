@@ -6,7 +6,6 @@ import { BurgerMenuStateContext } from '../Context/BurgerContext';
 
 export default function BurgerMenu({closeMenu}) {
   const active = React.useContext(BurgerMenuStateContext);
-  console.log('BurgerMenuStateContext', active)
 
   return (
     <div className={active ? 'burger-menu burger-menu_active' : 'burger-menu'}>

@@ -8,13 +8,12 @@ import { MoviesContext } from '../Context/MoviesContext';
 import { CurrentUser } from '../Context/CurrentUser';
 
 export default function SavedMovies({ listMovies }) {
+  
   const { myMovies, setMyMovies } = useContext(MoviesContext);
-  console.log('listMovies', myMovies);
   const { currentUser } = useContext(CurrentUser);
   console.log('currentUser', currentUser);
 
   useEffect(() => {
-    console.log(123);
     const token = localStorage.getItem('token');
     mainApi
       .getMyMovies(token)
@@ -24,7 +23,7 @@ export default function SavedMovies({ listMovies }) {
         setMyMovies(movies);
       })
       .then(() => console.log(myMovies));
-  }, [myMovies.length]);
+  }, []);
 
   function deleteMovie(movie) {
     const token = localStorage.getItem('token');

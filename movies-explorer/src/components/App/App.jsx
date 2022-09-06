@@ -36,7 +36,6 @@ function App() {
 
   function changeStatusMenu() {
     setBurgerMenuActive(!burgerMenuActive);
-    console.log(burgerMenuActive);
   }
 
   function closeMenu() {
@@ -44,11 +43,10 @@ function App() {
   }
 
   function handleRegister({ name, email, password }) {
-    return auth.register(name, email, password).then((data) => {});
+    return auth.register(name, email, password).then(() => handleLogin({ email, password }));
   }
 
   function handleLogin({ email, password }) {
-    console.log(1233);
     return auth
       .authorize(email, password)
       .then((data) => {
@@ -64,8 +62,9 @@ function App() {
 
   function handleOut() {
     localStorage.removeItem('token');
+    localStorage.removeItem('filterMovies')
     setLoggedIn(false);
-    history.push('/signin');
+    history.push('/');
   }
 
   function tokenCheck() {
@@ -77,8 +76,6 @@ function App() {
         .getContent(jwt)
         .then((res) => {
           setCurrentUser(res);
-          console.log('это ер', res);
-          console.log('это юзер', currentUser);
         })
         .catch((err) => console.log(err));
     }

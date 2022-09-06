@@ -10,8 +10,14 @@ import Preloader from '../Preloader/Preloader';
 
 export default function Movies({ listMovies }) {
   const { myMovies, setMyMovies } = useContext(MoviesContext);
-  const [searchHappened, setSearchHappened] = useState(false);
-  const [filterMovies, setFilterMovies] = useState({});
+  const [filterMovies, setFilterMovies] = useState(
+    JSON.parse(localStorage.getItem('filterMovies')) || []
+  );
+  console.log(filterMovies);
+  
+  if (filterMovies.length) {
+
+  }
 
   function changeWidth(widthWindow) {
     if (widthWindow >= 1280) {
@@ -24,18 +30,17 @@ export default function Movies({ listMovies }) {
   }
 
   const { showCard, moreCard } = changeWidth(window.innerWidth);
-  console.log(showCard, moreCard);
   const [showCardCount, setShowCardCount] = useState(showCard);
   const [showPreloader, setShowPreloader] = useState(false);
-
 
   useEffect(() => {
     moviesApi
       .getFilms()
       .then((moviesList) => {
         localStorage.setItem('moviesList', JSON.stringify(moviesList));
+        
       })
-      .catch((err) => console.log(err))
+      .catch((err) => console.log(err));
   }, []);
 
   function searchMovies(formParams, checked) {
@@ -44,7 +49,6 @@ export default function Movies({ listMovies }) {
     let movies = JSON.parse(localStorage.getItem('moviesList'));
 
     searchFilm({ movies, movieName, checked });
-    setSearchHappened(true);
     setFilterMovies(JSON.parse(localStorage.getItem('filterMovies')));
     setShowPreloader(false);
   }
@@ -63,10 +67,12 @@ export default function Movies({ listMovies }) {
 
   function onSaveMovie(movie) {
     let token = localStorage.getItem('token');
+    console.log(movie)
     mainApi
       .seveMovie(movie, token)
       .then((res) => {
         movie = { ...movie, _id: res._id };
+        console.log(res)
         return movie;
       })
       .catch((err) => console.log(err));
@@ -96,7 +102,7 @@ export default function Movies({ listMovies }) {
       ) : (
         <MoviesCardList
           children={
-            searchHappened ? (
+            filterMovies.length ? (
               filterMovies.slice(0, showCardCount).map((movie) => (
                 <MoviesCard
                   movie={movie}
@@ -113,13 +119,12 @@ export default function Movies({ listMovies }) {
                 />
               ))
             ) : (
-              <></>
+              <>ничего не найдено</>
             )
           }
         />
       )}
-
-      {searchHappened && filterMovies.length > showCardCount ? (
+      {filterMovies && filterMovies.length > showCardCount ? (
         <button
           type='button'
           className='movies__button-more'

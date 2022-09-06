@@ -9,6 +9,15 @@ export default function Login(props) {
     email: '',
     password: '',
   });
+  const [errors, setErrors] = useState({});
+  const [isValid, setIsValid] = useState(true);
+
+  const handleSubmit = (e) => {
+    let { email, password } = formParams;
+    props.handleLogin({ email, password }).catch((err) => {
+      console.log(err);
+    });
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -16,21 +25,18 @@ export default function Login(props) {
       ...prev,
       [name]: value,
     }));
+    setErrors({ ...errors, [name]: e.target.validationMessage });
+    setIsValid(e.target.closest('form').checkValidity());
+    console.log(isValid);
   };
-
-  function handleSubmitRegister() {
-    let { email, password } = formParams;
-    props.handleLogin({ email, password }).catch((err) => {
-      console.log(err)
-    });;
-  }
 
   return (
     <>
       <Form
         title={'Рады видеть!'}
         submit={'Войти'}
-        handleSubmit={handleSubmitRegister}
+        handleSubmit={handleSubmit}
+        disabled={!isValid}
         children={
           <>
             <Input
@@ -40,6 +46,8 @@ export default function Login(props) {
               label={'E-mail'}
               value={formParams.email}
               onChange={handleChange}
+              validate={{minLength: '', maxLength: ''}}
+              errorMessage={errors.email}
             />
             <Input
               type={'password'}
@@ -47,6 +55,8 @@ export default function Login(props) {
               label={'Пароль'}
               value={formParams.password}
               onChange={handleChange}
+              validate={{minLength: 8, maxLength: ''}}
+              errorMessage={errors.password}
             />
           </>
         }

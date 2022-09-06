@@ -36,7 +36,7 @@ class MainApi {
       year: data.year,
       description: data.description,
       image: MOVIE_API_URL + data.image.url,
-      trailerLink: MOVIE_API_URL + data.trailerLink,
+      trailerLink: data.trailerLink,
       thumbnail: MOVIE_API_URL + data.image.formats.thumbnail.url,
       movieId: data.id,
       nameRU: data.nameRU,
