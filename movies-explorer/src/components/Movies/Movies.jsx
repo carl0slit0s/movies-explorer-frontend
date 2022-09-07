@@ -7,6 +7,7 @@ import { moviesApi } from '../../utils/MoviesApi';
 import { mainApi } from '../../utils/MainApi';
 import { MoviesContext } from '../Context/MoviesContext';
 import Preloader from '../Preloader/Preloader';
+import { CurrentUser } from '../Context/CurrentUser';
 
 import {
   MAX_DURATION_SHORT_FILM,
@@ -20,19 +21,17 @@ import {
 import MessagePopup from '../MessagePopup/MessagePopup';
 
 export default function Movies({ listMovies }) {
-// список сохранённых фильмов
+  const { currentUser } = useContext(CurrentUser);
+  // список сохранённых фильмов
+
   const { myMovies, setMyMovies } = useContext(MoviesContext);
   const [filterMovies, setFilterMovies] = useState(
-    JSON.parse(localStorage.getItem('filterMovies')) || []
+    JSON.parse(localStorage.getItem('filterMovies'))
   );
-  console.log(myMovies)
-  console.log(filterMovies)
-  
-  
 
   const [openPopup, setOpenPopup] = useState(false);
   const [message, setMessage] = useState('');
-
+  // const [movieCard, setMovieCard] = useState(movie);
 
   function changeWidth(widthWindow) {
     if (widthWindow >= 1280) {
@@ -59,12 +58,27 @@ export default function Movies({ listMovies }) {
       .finally(() => setShowPreloader(false));
   }, []);
 
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    mainApi
+      .getMyMovies(token)
+      .then((movies) => {
+        // movies = movies.filter((movie) => movie.owner === currentUser.id);
+        setMyMovies(movies.filter((movie) => movie.owner === currentUser.id));
+      })
+      .then(() => console.log(myMovies));
+  }, []);
+
+  useEffect(() => {
+    // обновление стейта
+  }, [myMovies]);
+
   function searchMovies(formParams, checked) {
     let movieName = formParams.movieName;
     let movies = JSON.parse(localStorage.getItem('moviesList'));
 
     searchFilm({ movies, movieName, checked });
-    
+
     // список фильмов по поиску
     setFilterMovies(JSON.parse(localStorage.getItem('filterMovies')));
   }
@@ -79,12 +93,15 @@ export default function Movies({ listMovies }) {
       );
     }
     localStorage.setItem('filterMovies', JSON.stringify(filterMovies));
+    console.log(filterMovies.length);
+    if (filterMovies.length === 0) {
+      showMessage('Ничего не найдено');
+    }
   }
 
-
-  function checkLike() {
-    
-  }
+  // function checkLike(listMovie) {
+  //   listMovie.
+  // }
   // function onSaveMovie(movie) {
   //   let token = localStorage.getItem('token');
   //   console.log(movie)
@@ -98,15 +115,7 @@ export default function Movies({ listMovies }) {
   //     .catch((err) => console.log(err));
   // }
 
-  function deleteMovie(movie) {
-    const token = localStorage.getItem('token');
-    console.log(movie);
-    mainApi.deleteMovie(movie._id, token).then(() => {
-      setMyMovies(myMovies.filter((n) => n !== movie));
-      console.log(myMovies);
-      console.log('карточка удалена');
-    });
-  }
+
 
   function showMorMovies() {
     setShowCardCount(showCardCount + moreCard);
@@ -115,12 +124,46 @@ export default function Movies({ listMovies }) {
 
   function showMessage(message) {
     setOpenPopup(true);
-    console.log('ОТкрЫть');
     setMessage(message);
   }
 
   function closePopup() {
     setOpenPopup(false);
+  }
+
+  function deleteMovie(movie) {
+    const token = localStorage.getItem('token');
+    console.log(movie.id);
+    console.log(myMovies);
+    const cardForDelete = myMovies.find((item) => item.movieId === movie.id);
+    console.log(cardForDelete);
+    mainApi.deleteMovie(cardForDelete._id, token).then(() => {
+      setMyMovies((myMovies) => myMovies.filter((n) => n.movieId !== movie.id));
+      console.log(myMovies);
+      console.log('карточка удалена');
+    });
+  }
+
+  function clickButtonSave(movie) {
+    let token = localStorage.getItem('token');
+    mainApi
+      .seveMovie(movie, token)
+      .then((myMovie) => {
+        console.log(myMovie)
+        setFilterMovies((filterMovies) =>
+          filterMovies.map((movie) =>
+            movie.id === myMovie.movieId ? myMovie : movie
+          )
+        );
+        setMyMovies((myMovies) => [...myMovies, myMovie]);
+        const myCard = myMovies.some((i) => i.movieId === movie.id);
+        console.log(myMovies, myMovie, filterMovies);
+        return filterMovies;
+      }).then()
+      .catch((err) => {
+        showMessage(err.message);
+        console.log(err);
+      });
   }
 
   return (
@@ -134,29 +177,33 @@ export default function Movies({ listMovies }) {
       {showPreloader ? (
         <Preloader />
       ) : (
-        <MoviesCardList
-          children={
-            filterMovies.length ? (
-              filterMovies.slice(0, showCardCount).map((movie) => (
-                <MoviesCard
-                  movie={movie}
-                  myListMovies={false}
-                  movieData={{
-                    nameRU: movie.nameRU,
-                    duration: movie.duration,
-                    image: 'https://api.nomoreparties.co' + movie.image.url,
-                    trailerLink: movie.trailerLink
-                  }}
-                  key={movie._id}
-                  deleteMovie={deleteMovie}
-                  showErrorLike={showMessage}
-                />
-              ))
-            ) : (
-              <>ничего не найдено</>
-            )
-          }
-        />
+        <MoviesCardList>
+          {filterMovies
+            ? filterMovies.slice(0, showCardCount).map(
+                (movie) => (
+                  myMovies.some((i) => i.movieId === movie.id),
+                  (
+                    /* console.log(myCard), */
+                    <MoviesCard
+                      movie={movie}
+                      myListMovies={myMovies}
+                      movieData={{
+                        nameRU: movie.nameRU,
+                        duration: movie.duration,
+                        image: 'https://api.nomoreparties.co' + movie.image.url,
+                        trailerLink: movie.trailerLink
+                      }}
+                      key={movie._id}
+                      deleteMovie={deleteMovie}
+                      showErrorLike={showMessage}
+                      myCard={myMovies.some((i) => i.movieId === movie.id)}
+                      clickButtonSave={clickButtonSave}
+                    />
+                  )
+                )
+              )
+            : null}
+        </MoviesCardList>
       )}
       {filterMovies && filterMovies.length > showCardCount ? (
         <button

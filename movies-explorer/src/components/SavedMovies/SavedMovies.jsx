@@ -12,17 +12,17 @@ export default function SavedMovies({ listMovies }) {
   const { currentUser } = useContext(CurrentUser);
   console.log(myMovies);
 
-  useEffect(() => {
-    const token = localStorage.getItem('token');
-    mainApi
-      .getMyMovies(token)
-      .then((movies) => {
-        console.log(currentUser);
-        movies = movies.filter((movie) => movie.owner === currentUser.id);
-        setMyMovies(movies);
-      })
-      .then(() => console.log(myMovies));
-  }, []);
+  // useEffect(() => {
+  //   const token = localStorage.getItem('token');
+  //   mainApi
+  //     .getMyMovies(token)
+  //     .then((movies) => {
+  //       console.log(currentUser);
+  //       movies = movies.filter((movie) => movie.owner === currentUser.id);
+  //       setMyMovies(movies);
+  //     })
+  //     .then(() => console.log(myMovies));
+  // }, []);
 
   function deleteMovie(movie) {
     const token = localStorage.getItem('token');

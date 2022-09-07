@@ -12,11 +12,13 @@ export default function MoviesCard({
   saveMovie,
   deleteMovie,
   showErrorLike,
+  myCard,
+  clickButtonSave,
 }) {
   const [iconStatus, setIconStatus] = useState(iconSave);
   const [visibilityIconSave, setVisibilityIconSave] = useState(false);
   const [movieCard, setMovieCard] = useState(movie);
-  const [myCard, setMyCard] = useState(false);
+  // const [myCard, setMyCard] = useState(false);
   // видимость кнопки сохранить
   const showIconSave = () => {
     setVisibilityIconSave(true);
@@ -33,28 +35,12 @@ export default function MoviesCard({
     setIconStatus(iconSave);
   };
 
-  function handleIconDelete() {
-    setMyCard(false);
+  function handleIconDelete(e) {
+    console.log(movieCard)
     deleteMovie(movieCard);
   }
 
-  function clickButtonSave(movie) {
-    console.log(movie);
-    let token = localStorage.getItem('token');
-    mainApi
-      .seveMovie(movie, token)
-      .then((res) => {
-        movie = { ...movie, _id: res._id, myCard: true };
-        console.log(movie);
-        setMyCard(true);
-        setMovieCard(movie)
-        return movie;
-      })
-      .catch((err) => {
-        showErrorLike(err.message);
-        console.log(err);
-      });
-  }
+
 
   function saveMovie() {
     clickButtonSave(movie);
