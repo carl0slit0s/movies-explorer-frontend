@@ -14,10 +14,13 @@ export default function MoviesCard({
   showErrorLike,
   myCard,
   clickButtonSave,
+  myMovies
 }) {
   const [iconStatus, setIconStatus] = useState(iconSave);
   const [visibilityIconSave, setVisibilityIconSave] = useState(false);
   const [movieCard, setMovieCard] = useState(movie);
+
+  const isSaved = myMovies.some((i) => i.movieId === movie.id)
   // const [myCard, setMyCard] = useState(false);
   // видимость кнопки сохранить
   const showIconSave = () => {
@@ -36,7 +39,6 @@ export default function MoviesCard({
   };
 
   function handleIconDelete(e) {
-    console.log(movieCard)
     deleteMovie(movieCard);
   }
 
@@ -69,7 +71,7 @@ export default function MoviesCard({
           visibilityIconSave={visibilityIconSave}
           clickButtonSave={saveMovie}
           handleIconDelete={handleIconDelete}
-          myCard={myCard}
+          myCard={isSaved}
         />
       </div>
     </div>

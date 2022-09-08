@@ -29,10 +29,12 @@
   border-radius: 3px;
   border: none;
   margin: 0 0 16px;
+  cursor: pointer;
 }
 
-.form__submit:disabled {
+.form__submit_disabled {
   opacity: .4;
+  pointer-events: none;
 }
 
 @media screen and (max-width: 450px) {

@@ -29,11 +29,12 @@ function App() {
 
   const history = useHistory();
 
-  // useEffect(() => {
-  //   loggedIn ? history.push('/movies') : history.push('/');
-  // }, []);
-
   useEffect(() => {
+    let jwt = localStorage.getItem('token');
+    auth
+      .getContent(jwt)
+      .then((res) => setCurrentUser(res))
+      .catch((err) => console.log(err));
     tokenCheck();
   }, []);
 
@@ -46,10 +47,13 @@ function App() {
   }
 
   function handleRegister({ name, email, password }) {
-    return auth.register(name, email, password).then(() => {
-      showMessage('успешная регистрация!')
-      handleLogin({ email, password });
-    }).catch(err => showMessage(err.message));
+    return auth
+      .register(name, email, password)
+      .then(() => {
+        showMessage('успешная регистрация!');
+        handleLogin({ email, password });
+      })
+      .catch((err) => showMessage(err.message));
   }
 
   function handleLogin({ email, password }) {
@@ -69,7 +73,6 @@ function App() {
 
   function showMessage(message) {
     setOpenPopup(true);
-    console.log('ОТкрЫть');
     setMessage(message);
   }
 
@@ -79,7 +82,9 @@ function App() {
 
   function handleOut() {
     localStorage.removeItem('token');
-    localStorage.removeItem('filterMovies');
+    localStorage.removeItem('foundMoviesData');
+    localStorage.removeItem('moviesList');
+    localStorage.removeItem('foundMoviesData');
     setLoggedIn(false);
     history.push('/');
   }
@@ -95,11 +100,11 @@ function App() {
           setCurrentUser(res);
         })
         .catch((err) => {
-          setLoggedIn(false);
-          history.push('/');
           console.log(err);
-          localStorage.removeItem('token')
+          handleOut();
         });
+    } else {
+      handleOut();
     }
   }
 
@@ -110,7 +115,10 @@ function App() {
           <MoviesContext.Provider value={{ myMovies, setMyMovies }}>
             <Switch>
               <Route exact path='/'>
-                <Header loggedIn={loggedIn} changeStatusMenu={changeStatusMenu} />
+                <Header
+                  loggedIn={loggedIn}
+                  changeStatusMenu={changeStatusMenu}
+                />
                 <BurgerMenu closeMenu={closeMenu} />
                 <Main />
                 <Footer />
@@ -122,22 +130,31 @@ function App() {
                 loggedIn={loggedIn}
               >
                 <Route path={'/movies'}>
-                  <Header loggedIn={loggedIn} changeStatusMenu={changeStatusMenu} />
+                  <Header
+                    loggedIn={loggedIn}
+                    changeStatusMenu={changeStatusMenu}
+                  />
                   <BurgerMenu closeMenu={closeMenu} />
-                  <Movies />
+                  <Movies loggedIn={loggedIn} />
                   <Footer />
                 </Route>
 
                 <Route path={'/saved-movies'}>
-                  <Header loggedIn={loggedIn} changeStatusMenu={changeStatusMenu} />
+                  <Header
+                    loggedIn={loggedIn}
+                    changeStatusMenu={changeStatusMenu}
+                  />
                   <BurgerMenu closeMenu={closeMenu} active={burgerMenuActive} />
-                  <SavedMovies />
+                  <SavedMovies loggedIn={loggedIn} />
                   <Footer />
                 </Route>
               </ProtectedRoute>
 
               <Route path={'/profile'}>
-                <Header loggedIn={loggedIn} changeStatusMenu={changeStatusMenu} />
+                <Header
+                  loggedIn={loggedIn}
+                  changeStatusMenu={changeStatusMenu}
+                />
                 <BurgerMenu closeMenu={closeMenu} />
                 <Profile handleOut={handleOut} />
                 <Footer />

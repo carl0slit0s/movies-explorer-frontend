@@ -10,7 +10,6 @@ class MainApi {
       return res.json();
     }
     return res.json().then((data) => {
-      console.log(data.message);
       throw new Error(data.message);
     });
   }

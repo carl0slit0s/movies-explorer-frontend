@@ -1,29 +1,27 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './SearchForm.css';
 
-export default function SearchForm({ onSubmit }) {
+export default function SearchForm({ onSubmit, keyword, short }) {
   const [formParams, setFormParams] = useState({
-    movieName: '',
+    movieName: ''
   });
-  const [checked, setChecked] = useState(false);
+  const [checked, setChecked] = useState(short || false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormParams((prev) => ({
       ...prev,
-      [name]: value,
+      [name]: value
     }));
   };
 
   function handleSubmitSearch(e) {
     e.preventDefault();
-    console.log(formParams);
     onSubmit(formParams, checked);
   }
 
   function chengeCheckbox() {
-    setChecked(!checked);
-    console.log(checked);
+    setChecked((checked) => !checked);
   }
 
   return (
@@ -32,7 +30,7 @@ export default function SearchForm({ onSubmit }) {
         <fieldset className='search__fieldset'>
           <input
             onChange={handleChange}
-            placeholder='Фильм'
+            placeholder={keyword || 'Фильм'}
             name='movieName'
             className='search__input'
             required

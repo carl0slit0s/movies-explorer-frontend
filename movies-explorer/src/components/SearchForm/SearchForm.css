@@ -103,17 +103,17 @@
   content: '';
   width: 16px;
   height: 16px;
-  right: 2px;
+  left: 2px;
   bottom: 2px;
   border-radius: 50%;
-  background-color: #3ddc84;
+  background-color: #ee3465;
   -webkit-transition: 0.4s;
   transition: 0.4s;
 }
 
 .search__checkbox:checked + .search__checkbox-label::before {
-  transform: translateX(-16px);
-  background-color: #ee3465;
+  transform: translateX(16px);
+  background-color: #3ddc84;
 }
 
 @media screen and (max-width: 450px) {

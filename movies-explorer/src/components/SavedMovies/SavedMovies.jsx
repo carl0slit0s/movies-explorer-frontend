@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import MoviesCard from '../MoviesCard/MoviesCard';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
 import SearchForm from '../SearchForm/SearchForm';
@@ -7,42 +7,41 @@ import { mainApi } from '../../utils/MainApi';
 import { MoviesContext } from '../Context/MoviesContext';
 import { CurrentUser } from '../Context/CurrentUser';
 
-export default function SavedMovies({ listMovies }) {
+export default function SavedMovies({ loggedIn }) {
   const { myMovies, setMyMovies } = useContext(MoviesContext);
-  const { currentUser } = useContext(CurrentUser);
-  console.log(myMovies);
 
-  // useEffect(() => {
-  //   const token = localStorage.getItem('token');
-  //   mainApi
-  //     .getMyMovies(token)
-  //     .then((movies) => {
-  //       console.log(currentUser);
-  //       movies = movies.filter((movie) => movie.owner === currentUser.id);
-  //       setMyMovies(movies);
-  //     })
-  //     .then(() => console.log(myMovies));
-  // }, []);
+  const [showMoviesCard, setShowMoviesCard] = useState(myMovies)
+  console.log(showMoviesCard)
+  useEffect(() => {
+    if (!loggedIn) {
+      setMyMovies([]);
+      setShowMoviesCard([])
+    }
+  }, [loggedIn])
 
   function deleteMovie(movie) {
     const token = localStorage.getItem('token');
-    console.log(myMovies);
     mainApi.deleteMovie(movie._id, token).then(() => {
-      setMyMovies(myMovies.filter((n) => n._id !== movie._id));
-      console.log(movie);
-      console.log('карточка удалена');
-    });
+      setShowMoviesCard(showMoviesCard.filter((n) => n._id !== movie._id));
+      setMyMovies(showMoviesCard.filter((n) => n._id !== movie._id))
+
+    }).catch((err) => console.log(err));
   }
 
   function filterhMovies(formParams, checked) {
     const { movieName } = formParams;
-    setMyMovies(
+    // setMyMovies(
+    //   myMovies.filter((movie) =>
+    //     movie.nameRU.toLowerCase().includes(movieName.toLowerCase())
+    //   )
+    // );
+    setShowMoviesCard(
       myMovies.filter((movie) =>
         movie.nameRU.toLowerCase().includes(movieName.toLowerCase())
       )
     );
     if (checked) {
-      setMyMovies(myMovies.filter((movie) => Number(movie.duration) <= 40));
+      setShowMoviesCard(showMoviesCard.filter((movie) => Number(movie.duration) <= 40));
     }
   }
 
@@ -51,8 +50,7 @@ export default function SavedMovies({ listMovies }) {
       <SearchForm onSubmit={filterhMovies} />
       <MoviesCardList
         children={
-          myMovies.length ? (
-            myMovies.map((movie) => (
+          showMoviesCard.map((movie) => (
               <MoviesCard
                 movie={movie}
                 mySaveMovies={true}
@@ -65,11 +63,9 @@ export default function SavedMovies({ listMovies }) {
                 // saveMovie={onSaveMovie}
                 key={movie._id}
                 deleteMovie={deleteMovie}
+                myMovies={myMovies}
               />
             ))
-          ) : (
-            <span>ничего не найдено</span>
-          )
         }
       />
     </div>

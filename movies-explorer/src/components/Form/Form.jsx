@@ -3,7 +3,13 @@ import './Form.css';
 import { Link } from 'react-router-dom';
 import logo from '../../images/logo.svg';
 
-export default function Form({ title, submit, children, handleSubmit, disabled }) {
+export default function Form({
+  title,
+  submit,
+  children,
+  handleSubmit,
+  disabled
+}) {
   function onSubmit(e) {
     e.preventDefault();
     handleSubmit();
@@ -16,7 +22,12 @@ export default function Form({ title, submit, children, handleSubmit, disabled }
       </Link>
       <h2 className='form__title'>{title}</h2>
       {children}
-      <button className='form__submit' type='submit' disabled={disabled}>
+      <button
+        className={
+          !disabled ? 'form__submit' : 'form__submit form__submit_disabled'
+        }
+        type='submit'
+      >
         {submit}
       </button>
     </form>

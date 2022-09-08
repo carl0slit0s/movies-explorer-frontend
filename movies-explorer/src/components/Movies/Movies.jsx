@@ -20,18 +20,28 @@ import {
 } from '../../utils/constants.js';
 import MessagePopup from '../MessagePopup/MessagePopup';
 
-export default function Movies({ listMovies }) {
+export default function Movies({ loggedIn }) {
   const { currentUser } = useContext(CurrentUser);
   // список сохранённых фильмов
-
+  const {foundMovies, keyword, short} = JSON.parse(localStorage.getItem('foundMoviesData')) || {}
   const { myMovies, setMyMovies } = useContext(MoviesContext);
-  const [filterMovies, setFilterMovies] = useState(
-    JSON.parse(localStorage.getItem('filterMovies'))
-  );
+  const [filterMovies, setFilterMovies] = useState(foundMovies);
 
   const [openPopup, setOpenPopup] = useState(false);
   const [message, setMessage] = useState('');
   // const [movieCard, setMovieCard] = useState(movie);
+
+  useEffect(() => {
+    if (!loggedIn) {
+      setMyMovies([]);
+      setFilterMovies([])
+    }
+  }, [loggedIn])
+
+
+  
+
+
 
   function changeWidth(widthWindow) {
     if (widthWindow >= 1280) {
@@ -56,34 +66,39 @@ export default function Movies({ listMovies }) {
       })
       .catch((err) => console.log(err))
       .finally(() => setShowPreloader(false));
-  }, []);
 
-  useEffect(() => {
-    const token = localStorage.getItem('token');
-    mainApi
-      .getMyMovies(token)
-      .then((movies) => {
-        // movies = movies.filter((movie) => movie.owner === currentUser.id);
-        setMyMovies(movies.filter((movie) => movie.owner === currentUser.id));
-      })
-      .then(() => console.log(myMovies));
-  }, []);
+      const token = localStorage.getItem('token');
+      mainApi
+        .getMyMovies(token)
+        .then((movies) => {
+          // setMyMovies(movies)
+          const myMovie = movies.filter((movie) => movie.owner === currentUser.id);
+          setMyMovies(myMovie);
+        })
 
-  useEffect(() => {
-    // обновление стейта
-  }, [myMovies]);
+  }, [currentUser]);
 
+  // кликер по поиску
   function searchMovies(formParams, checked) {
-    let movieName = formParams.movieName;
     let movies = JSON.parse(localStorage.getItem('moviesList'));
+    let movieName = formParams.movieName;
 
-    searchFilm({ movies, movieName, checked });
+    const foundMoviesList = selectionFilm({ movies, movieName, checked });
+    if (!foundMoviesList.length) {
+      showMessage('Ничего не найдено');
+    }
 
-    // список фильмов по поиску
-    setFilterMovies(JSON.parse(localStorage.getItem('filterMovies')));
+    const foundMoviesData = {
+      short: checked,
+      keyword: movieName,
+      foundMovies: foundMoviesList
+    };
+    setFilterMovies(foundMoviesData.foundMovies)
+    localStorage.setItem('foundMoviesData', JSON.stringify(foundMoviesData));
   }
 
-  function searchFilm({ movies, movieName, checked }) {
+  // Отбираем фильмы по пораметрам
+  function selectionFilm({ movies, movieName, checked }) {
     let filterMovies = movies.filter((movie) =>
       movie.nameRU.toLowerCase().includes(movieName.toLowerCase())
     );
@@ -92,34 +107,11 @@ export default function Movies({ listMovies }) {
         (movie) => Number(movie.duration) <= MAX_DURATION_SHORT_FILM
       );
     }
-    localStorage.setItem('filterMovies', JSON.stringify(filterMovies));
-    console.log(filterMovies.length);
-    if (filterMovies.length === 0) {
-      showMessage('Ничего не найдено');
-    }
+    return filterMovies;
   }
-
-  // function checkLike(listMovie) {
-  //   listMovie.
-  // }
-  // function onSaveMovie(movie) {
-  //   let token = localStorage.getItem('token');
-  //   console.log(movie)
-  //   mainApi
-  //     .seveMovie(movie, token)
-  //     .then((res) => {
-  //       movie = { ...movie, _id: res._id, myCard: true };
-  //       console.log(res)
-  //       return movie;
-  //     })
-  //     .catch((err) => console.log(err));
-  // }
-
-
 
   function showMorMovies() {
     setShowCardCount(showCardCount + moreCard);
-    console.log(showCardCount);
   }
 
   function showMessage(message) {
@@ -133,33 +125,23 @@ export default function Movies({ listMovies }) {
 
   function deleteMovie(movie) {
     const token = localStorage.getItem('token');
-    console.log(movie.id);
-    console.log(myMovies);
     const cardForDelete = myMovies.find((item) => item.movieId === movie.id);
-    console.log(cardForDelete);
     mainApi.deleteMovie(cardForDelete._id, token).then(() => {
       setMyMovies((myMovies) => myMovies.filter((n) => n.movieId !== movie.id));
-      console.log(myMovies);
-      console.log('карточка удалена');
     });
   }
 
+  // кликер сохранение
   function clickButtonSave(movie) {
     let token = localStorage.getItem('token');
     mainApi
       .seveMovie(movie, token)
       .then((myMovie) => {
-        console.log(myMovie)
-        setFilterMovies((filterMovies) =>
-          filterMovies.map((movie) =>
-            movie.id === myMovie.movieId ? myMovie : movie
-          )
-        );
         setMyMovies((myMovies) => [...myMovies, myMovie]);
-        const myCard = myMovies.some((i) => i.movieId === movie.id);
-        console.log(myMovies, myMovie, filterMovies);
-        return filterMovies;
-      }).then()
+
+        // return filterMovies;
+      })
+      .then()
       .catch((err) => {
         showMessage(err.message);
         console.log(err);
@@ -173,17 +155,16 @@ export default function Movies({ listMovies }) {
         isOpen={openPopup}
         closePopup={closePopup}
       />
-      <SearchForm onSubmit={searchMovies} />
+      <SearchForm onSubmit={searchMovies} keyword={keyword} short={short} />
       {showPreloader ? (
         <Preloader />
       ) : (
         <MoviesCardList>
-          {filterMovies
+          {foundMovies
             ? filterMovies.slice(0, showCardCount).map(
                 (movie) => (
-                  myMovies.some((i) => i.movieId === movie.id),
+                /* myMovies.some((i) => i.movieId === movie.id), */
                   (
-                    /* console.log(myCard), */
                     <MoviesCard
                       movie={movie}
                       myListMovies={myMovies}
@@ -196,8 +177,9 @@ export default function Movies({ listMovies }) {
                       key={movie._id}
                       deleteMovie={deleteMovie}
                       showErrorLike={showMessage}
-                      myCard={myMovies.some((i) => i.movieId === movie.id)}
+                      // myCard={myMovies.some((i) => i.movieId === movie.id)}
                       clickButtonSave={clickButtonSave}
+                      myMovies={myMovies}
                     />
                   )
                 )
