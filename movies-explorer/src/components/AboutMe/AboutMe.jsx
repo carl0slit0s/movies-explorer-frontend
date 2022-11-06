@@ -70,13 +70,12 @@ export default function AboutMe() {
               <p className='about-me__website-cursor'>&#8599;</p>
             </a>
           </li>
-          {/* удалил из яндекс облака, чтобы деньги не ел */}
-          {/* <li className='about-me__portfolio-item'>
+          <li className='about-me__portfolio-item'>
             <a className='about-me__website' href='#' target='_blank'>
               Одностраничное приложение
               <span className='about-me__website-cursor'>&#8599;</span>
             </a>
-          </li> */}
+          </li>
         </ul>
       </div>
     </section>
